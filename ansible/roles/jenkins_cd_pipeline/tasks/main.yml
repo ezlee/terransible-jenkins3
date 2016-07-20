@@ -42,8 +42,8 @@
   changed_when: false
   when: pipeline_view_created.changed
 
-#- name: Add pipeline view
-#  shell: java -jar {{ jenkins_jar_location }} -s http://{{ jenkins_hostname }}:{{ jenkins_http_port }}{{ jenkins_url_prefix | default('') }}/ create-view < /var/lib/jenkins/tmp/{{ pipeline_project_name }}-pipeline-view.xml
+- name: Add pipeline view
+  shell: java -jar {{ jenkins_jar_location }} -s http://{{ jenkins_hostname }}:{{ jenkins_http_port }}{{ jenkins_url_prefix | default('') }}/ create-view < /var/lib/jenkins/tmp/{{ pipeline_project_name }}-pipeline-view.xml
   #args:
   #  creates: /var/lib/jenkins/jobs/{{ pipeline_project_name }}-{{ item.name }}/config.xml
-#  notify: retart jenkins
+  notify: restart jenkins
