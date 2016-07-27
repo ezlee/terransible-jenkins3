@@ -10,9 +10,18 @@
       "{{ jenkins_init_changes }}"
   register: jenkins_init_prefix
 
+- name: print debug information - jenkins java options
+  debug: var=jenkins_init_prefix verbosity=4
+
 - name: Immediately restart Jenkins on init config changes.
   service: name=jenkins state=restarted
   when: jenkins_init_prefix.changed
+
+- name: show jenkins ps
+  shell: "ps -ef|grep jenkins"
+  register: result
+  debug: var=result.stdout_lines
+
 
 - name: Set HTTP port in Jenkins config.
   lineinfile:
@@ -37,6 +46,13 @@
   register: jenkins_users_config
   when: jenkins_install_package.changed
 
+- name: print debug information after Configure Jenkins default users
+  debug: var=jenkins_install_package verbosity=2
+
 - name: Immediately restart Jenkins on http or user changes.
   service: name=jenkins state=restarted
   when: jenkins_users_config.changed or jenkins_http_config.changed
+
+- name: print debug information after Immediately restart Jenkins
+  debug: var=jenkins_users_config verbosity=2
+

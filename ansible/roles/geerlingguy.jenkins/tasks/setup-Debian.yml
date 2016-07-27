@@ -16,3 +16,6 @@
 - name: Ensure Jenkins is installed.
   apt: name=jenkins state=present
   register: jenkins_install_package
+
+- name: print debug information
+  debug: var=jenkins_install_package verbosity=2
